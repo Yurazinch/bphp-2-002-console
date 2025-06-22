@@ -7,16 +7,15 @@ $args = []; // Массив для типизированных элементо
 
 foreach($arg_string as $el) {
     if(is_numeric($el)) {
-        if (strpos($el, '.') !== false) {
-            $args[] = (float)$el;// Преобразуем в float
-        } elseif (str_contains($el, ',') === 1) { // Проверяем на запятую
-            $elt = trim($el, ' '); // Удаляем пробелы
-            $elr = str_replace(',', '.', $elt); // Меняем на точку
-            $args[] = (float)$elr;// Преобразуем в float 
+        if (strpos($el, '.') !== false) { // Проверяем на точку
+            $args[] = (float)$el;// Преобразуем в float 
         } else {
             $args[] = (int)$el; // Преобразуем в int
         }
-    } else {
+    } elseif (strpos($el, ',') !== false) { // Проверяем на запятую
+        $elr = str_replace(',', '.', $el); // Меняем на точку
+        $args[] = (float)$elr;// Преобразуем в float 
+    } else { 
         $args[] = $el; // Оставляем как строку
     }
 }
@@ -25,10 +24,10 @@ print_r($args);
 
 switch (true) {
     case is_string($args[0]):
-        fwrite(STDERR, "Введите, пожалуйста, число" . PHP_EOL);
+        fwrite(STDERR, "Введите, пожалуйста, первое число" . PHP_EOL);
         break;
     case is_string($args[1]):
-        fwrite(STDERR, "Введите, пожалуйста, число" . PHP_EOL);
+        fwrite(STDERR, "Введите, пожалуйста, второе число" . PHP_EOL);
         break;
     case $args[1] === 0;
         fwrite(STDERR, "Делить на 0 нельзя!" . PHP_EOL);
