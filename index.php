@@ -12,9 +12,13 @@ foreach($arg_string as $el) {
         } else {
             $args[] = (int)$el; // Преобразуем в int
         }
-    } elseif (strpos($el, ',') !== false) { // Проверяем на запятую
-        $elr = str_replace(',', '.', $el); // Меняем на точку
-        $args[] = (float)$elr;// Преобразуем в float 
+    } elseif (strpos($el, ',') !== false) {  // Проверяем на запятую
+        $el = str_replace(',', '.', $el); // Меняем на точку
+        if(is_numeric($el)) {            
+            $args[] = (float)$el;// Преобразуем в float 
+        } else {
+            $args[] = $el; // Оставляем как строку
+        }
     } else { 
         $args[] = $el; // Оставляем как строку
     }
